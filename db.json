@@ -1,0 +1,12 @@
+{
+  "reportes": [
+    {
+      "id": 1,
+      "nombre": "Ejemplo Anónimo",
+      "ubicacion": "Río Atrato, Quibdó",
+      "tipo": "Contaminación del agua",
+      "descripcion": "Presencia de mercurio y dragas operando.",
+      "ts": 1710000000000
+    }
+  ]
+}
