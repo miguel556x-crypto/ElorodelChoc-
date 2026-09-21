@@ -1,0 +1,14 @@
+CREATE DATABASE IF NOT EXISTS oro_choco
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE oro_choco;
+
+CREATE TABLE IF NOT EXISTS reportes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(150) NOT NULL,
+  ubicacion VARCHAR(200) NOT NULL,
+  tipo VARCHAR(100) NOT NULL,
+  descripcion TEXT,
+  ts BIGINT NOT NULL
+);

@@ -3,6 +3,7 @@
   const listEl = document.getElementById('reportList');
   const statusEl = document.getElementById('formStatus');
   const btn = document.getElementById('submitBtn');
+  const API_URL = '/api/reportes';
 
   function escapeHtml(str){
     return String(str).replace(/[&<>"']/g, function(c){
@@ -34,27 +35,9 @@
 
   async function loadReports(){
     try{
-      if(!window.storage || !window.storage.list) {
-        renderReports([]);
-        return;
-      }
-      const listResult = await window.storage.list('reportes:', true);
-      const keys = (listResult && listResult.keys) ? listResult.keys : [];
-      if(!keys.length){
-        renderReports([]);
-        return;
-      }
-      const items = [];
-      for(const key of keys){
-        try{
-          const res = await window.storage.get(key, true);
-          if(res && res.value){
-            items.push(JSON.parse(res.value));
-          }
-        }catch(e){
-          // clave ilegible, se ignora
-        }
-      }
+      const res = await fetch(API_URL);
+      if(!res.ok) throw new Error('Respuesta no OK del servidor');
+      const items = await res.json();
       items.sort(function(a,b){ return (b.ts||0) - (a.ts||0); });
       renderReports(items);
     }catch(e){
@@ -83,22 +66,21 @@
         nombre: nombre || null,
         ubicacion: ubicacion,
         tipo: tipo,
-        descripcion: descripcion,
-        ts: Date.now()
+        descripcion: descripcion
+        // ts lo asigna el servidor al guardar en MySQL
       };
-      const key = 'reportes:' + report.ts + '-' + Math.random().toString(36).slice(2,8);
 
       btn.disabled = true;
       btn.textContent = 'Enviando…';
 
       try{
-        if(!window.storage || !window.storage.set) {
-          throw new Error('Storage API not available');
-        }
-        const result = await window.storage.set(key, JSON.stringify(report), true);
-        if(!result){
-          throw new Error('No se pudo guardar');
-        }
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(report)
+        });
+        if(!res.ok) throw new Error('No se pudo guardar');
+
         form.reset();
         statusEl.textContent = 'Reporte enviado. Gracias por contarlo.';
         statusEl.className = 'form-status ok';

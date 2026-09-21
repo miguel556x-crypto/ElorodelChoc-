@@ -12,6 +12,10 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "json-server": "^1.0.0-beta.15"
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.1",
+    "express": "^5.2.1",
+    "json-server": "^1.0.0-beta.15",
+    "mysql2": "^3.24.4"
   }
 }
