@@ -1,7 +1,6 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
  
-// Pool de conexiones: reutiliza conexiones en vez de abrir una nueva por cada consulta
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 3306,

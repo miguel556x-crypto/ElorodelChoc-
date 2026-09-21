@@ -33,8 +33,6 @@
     }).join('');
   }
 
-  // Antes usaba window.storage (solo existe dentro de artifacts de Claude).
-  // Ahora pide los reportes al backend Express, que los lee de MySQL.
   async function loadReports(){
     try{
       const res = await fetch(API_URL);
